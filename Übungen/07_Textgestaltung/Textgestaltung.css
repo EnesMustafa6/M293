@@ -1,0 +1,23 @@
+body {
+  background: linear-gradient(#ffffff, #000000);
+}
+
+h1 {
+  color: blue;
+}
+
+h2 {
+  color: darkred;
+}
+
+p {
+  color: black;
+}
+
+ul {
+  color: green;
+}
+
+a {
+  color: purple;
+}
