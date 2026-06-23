@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop – Ball prallt ab</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+ 
+      body {
+        font-family: Arial, sans-serif;
+        background: #f7f7f7;
+        padding-top: 30px;
+        text-align: center;
+      }
+ 
+      h1 {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+ 
+      canvas {
+        background: #eeeeee;
+        display: block;
+        margin: 0 auto 12px;
+        border: 1px solid #cccccc;
+      }
+ 
+      button {
+        display: block;
+        margin: 0 auto;
+        padding: 8px 14px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+ 
+  <body>
+    <h1>Canvas: Ball zeichnen, bewegen und an Wänden abprallen lassen</h1>
+ 
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <button id="runButton">Start game</button>
+ 
+    <script>
+      const canvas = document.getElementById("myCanvas");
+      const ctx = canvas.getContext("2d");
+ 
+      const ballRadius = 10;
+ 
+      let x = canvas.width / 2;
+      let y = canvas.height - 30;
+ 
+      let dx = 2;
+      let dy = -2;
+ 
+      let intervalId = null;
+ 
+      function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+      }
+ 
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawBall();
+ 
+        // Linke und rechte Wand:
+        if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+          dx = -dx;
+        }
+ 
+        // Obere und untere Wand:
+        if (y + dy > canvas.height - ballRadius || y + dy < ballRadius) {
+          dy = -dy;
+        }
+ 
+        x += dx;
+        y += dy;
+      }
+ 
+      function startGame() {
+        if (intervalId === null) {
+          intervalId = setInterval(draw, 10);
+        }
+      }
+ 
+      const runButton = document.getElementById("runButton");
+      runButton.addEventListener("click", () => {
+        startGame();
+        runButton.disabled = true;
+      });
+ 
+      // Einmal zeichnen, damit der Ball schon vor dem Start sichtbar ist.
+      drawBall();
+    </script>
+  </body>
+</html>
+ 
